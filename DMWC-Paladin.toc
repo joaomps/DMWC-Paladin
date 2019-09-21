@@ -1,0 +1,9 @@
+## Interface: 11320
+## Title: DoMeWhen Classic - Paladin
+## Author: Nox
+## Notes: Nox Rotation for DoMeWhen Classic
+## DefaultState: Enabled
+## Dependencies: DoMeWhen-Classic
+
+Settings.lua
+Rotation.lua
