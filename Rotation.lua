@@ -114,7 +114,7 @@ local function Damage()
 	end
 	
 	-- Cast Judgement
-	if HasTarget and Spell.Judgement:IsReady() and ((not Debuff.JudgementOfWisdom:Exist(Target) and not Debuff.JudgementOfLight:Exist(Target) and not Debuff.JudgementOfTheCrusader:Exist(Target)) or (Buff.SealCommand:Exist(Player) or Buff.SealOfRight:Exist(Player))) and Spell.Judgement:Cast(Target) then
+	if HasTarget and Spell.Judgement:IsReady() and ((not Debuff.JudgementOfWisdom:Exist(Target) and not Debuff.JudgementOfLight:Exist(Target) and not Debuff.JudgementOfTheCrusader:Exist(Target) or Setting("Judgement of ") == 1) or (Buff.SealCommand:Exist(Player) or Buff.SealOfRight:Exist(Player))) and Spell.Judgement:Cast(Target) then
 		return true
 	end
 	
