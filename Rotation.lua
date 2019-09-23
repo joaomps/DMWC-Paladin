@@ -27,7 +27,7 @@ local function Locals()
     Friends40Y, Friends40YC = Player:GetFriends(40)
     Player40Y, Player40YC = Player:GetEnemies(40)
     MeleeAggro = false
-    HasTarget = Target and Target.ValidEnemy and Target.Facing
+    HasTarget = Target and Target.ValidEnemy and Target.Facing and not Target.Dead
     for _, Unit in ipairs(Player40Y) do
         if Unit.Distance < 6 and Player.Pointer == Unit.Target then
             MeleeAggro = true
@@ -95,15 +95,15 @@ end
 local function Damage()
 	-- Judgements
 	if Power > 20 then
-		if Setting("Judgement of ") == 2 and HasTarget and Spell.SealCrusader:IsReady() and not Debuff.JudgementOfTheCrusader:Exist(Target) and Spell.SealCrusader:Cast(Player) then
+		if Setting("Judgement of ") == 2 and HasTarget and Spell.SealCrusader:IsReady() and not Debuff.JudgementOfTheCrusader:Exist(Target) and Spell.SealCrusader:Cast(Player) and Target.Health > 5 then
 			return true
 		end
 		
-		if Setting("Judgement of ") == 3 and HasTarget and Spell.SealOfLight:IsReady() and not Debuff.JudgementOfLight:Exist(Target) and Spell.SealOfLight:Cast(Player) then
+		if Setting("Judgement of ") == 3 and HasTarget and Spell.SealOfLight:IsReady() and not Debuff.JudgementOfLight:Exist(Target) and Spell.SealOfLight:Cast(Player) and Target.Health > 5 then
 			return true
 		end
 		
-		if Setting("Judgement of ") == 4 and HasTarget and Spell.SealOfWisdom:IsReady() and not Debuff.JudgementOfWisdom:Exist(Target) and Spell.SealOfWisdom:Cast(Player) then
+		if Setting("Judgement of ") == 4 and HasTarget and Spell.SealOfWisdom:IsReady() and not Debuff.JudgementOfWisdom:Exist(Target) and Spell.SealOfWisdom:Cast(Player) and Target.Health > 5 then
 			return true
 		end
 	end
@@ -129,27 +129,31 @@ local function Damage()
 	end
 	
 	-- Seals
-	if Setting("Seal of ") == 2 and Spell.SealOfRight:IsReady() and not Buff.SealOfRight:Exist(Player) and Spell.SealOfRight:Cast(Player) then
+	if Setting("Seal of ") == 2 and Spell.SealOfRight:IsReady() and not Buff.SealOfRight:Exist(Player) and Spell.SealOfRight:Cast(Player) and Target.Health > 5 then
 		return true
 	end
 	
-	if Setting("Seal of ") == 3 and Spell.SealCommand:IsReady() and not Buff.SealCommand:Exist(Player) and Spell.SealCommand:Cast(Player) then
+	if Setting("Seal of ") == 3 and Setting("Seal of Command Rank 1") and Spell.SealCommand:IsReady(1) and not Buff.SealCommand:Exist(Player) and Spell.SealCommand:Cast(Player, 1) and Target.Health > 5 then
+		return true 
+	end
+	
+	if Setting("Seal of ") == 3 and not Setting("Seal of Command Rank 1") and Spell.SealCommand:IsReady() and not Buff.SealCommand:Exist(Player) and Spell.SealCommand:Cast(Player) and Target.Health > 5 then
+		return true 
+	end
+	
+	if Setting("Seal of ") == 4 and Spell.SealOfWisdom:IsReady() and not Buff.SealOfWisdom:Exist(Player) and Spell.SealOfWisdom:Cast(Player) and Target.Health > 5 then
 		return true
 	end
 	
-	if Setting("Seal of ") == 4 and Spell.SealOfWisdom:IsReady() and not Buff.SealOfWisdom:Exist(Player) and Spell.SealOfWisdom:Cast(Player) then
+	if Setting("Seal of ") == 5 and Spell.SealOfLight:IsReady() and not Buff.SealOfLight:Exist(Player) and Spell.SealOfLight:Cast(Player) and Target.Health > 5 then
 		return true
 	end
 	
-	if Setting("Seal of ") == 5 and Spell.SealOfLight:IsReady() and not Buff.SealOfLight:Exist(Player) and Spell.SealOfLight:Cast(Player) then
+	if Setting("Seal of ") == 6 and Spell.SealCrusader:IsReady() and not Buff.SealCrusader:Exist(Player) and Spell.SealCrusader:Cast(Player) and Target.Health > 5 then
 		return true
 	end
 	
-	if Setting("Seal of ") == 6 and Spell.SealCrusader:IsReady() and not Buff.SealCrusader:Exist(Player) and Spell.SealCrusader:Cast(Player) then
-		return true
-	end
-	
-	if Setting("Seal of ") == 7 and Spell.SealOfJustice:IsReady() and not Buff.SealOfJustice:Exist(Player) and Spell.SealOfJustice:Cast(Player) then
+	if Setting("Seal of ") == 7 and Spell.SealOfJustice:IsReady() and not Buff.SealOfJustice:Exist(Player) and Spell.SealOfJustice:Cast(Player) and Target.Health > 5 then
 		return true
 	end
 
@@ -157,11 +161,11 @@ end
 
 local function Defensive_Buffing()
     -- Blessings
-    if Setting("Blessing of ") == 2 and not Buff.BlessingMight:Exist(Player) and Spell.BlessingMight:Cast(Player) then 
-       return true
+    if Setting("Blessing of ") == 2 and not Buff.BlessingMight:Exist(Player) and Spell.BlessingMight:IsReady() and Spell.BlessingMight:Cast(Player) then
+		return true
     end
 	
-	if Setting("Blessing of ") == 3 and not Buff.BlessingWisdom:Exist(Player) and Spell.BlessingWisdom:Cast(Player) then 
+	if Setting("Blessing of ") == 3 and not Buff.BlessingWisdom:Exist(Player) and Spell.BlessingWisdom:IsReady() and Spell.BlessingWisdom:Cast(Player) then 
         return true
     end
 
