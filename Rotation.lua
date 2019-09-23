@@ -193,7 +193,7 @@ local function Defensive_Buffing()
     end
 	
     -- Defensive Flash of Light
-    if Setting("Use Flash of Light") and HP <= Setting("Flash of Light Percent") and Power > 15 and not Spell.FastOfLight:LastCast() and not Player.Moving then
+    if Setting("Use Flash of Light") and HP <= Setting("Flash of Light Percent") and Power > 15 and not Spell.FlashOfLight:LastCast() and not Player.Moving then
         if Spell.FlashOfLight:Cast(Player) then FiveSecondRuleTime = DMW.Time return true end
     end
 	
